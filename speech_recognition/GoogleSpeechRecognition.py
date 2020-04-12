@@ -11,7 +11,7 @@ from SpeechRecognitionConfig import GOOGLE_CLOUD_BUCKET_NAME
 
 
 class GoogleSpeechRecognition(SpeechRecognitionInterface):
-    def __init__(self, language, blob_length, enable_separate_recognition_per_channel=True):
+    def __init__(self, language, blob_length=32, enable_separate_recognition_per_channel=True):
         self.language = language
         self.blob_length = blob_length
         self.enable_separate_recognition_per_channel = True
@@ -68,6 +68,7 @@ class GoogleSpeechRecognition(SpeechRecognitionInterface):
             language_code=self.language,
             audio_channel_count=num_channels,
             enable_separate_recognition_per_channel=self.enable_separate_recognition_per_channel,
+            enable_automatic_punctuation=True
         )
         return config
     

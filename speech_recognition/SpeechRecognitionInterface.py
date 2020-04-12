@@ -2,7 +2,7 @@ import abc
 
 class SpeechRecognitionInterface(abc.ABC):
     @abc.abstractmethod
-    def transcribe(audio):
+    def transcribe(local_file_path):
         pass
 
     @abc.abstractclassmethod
