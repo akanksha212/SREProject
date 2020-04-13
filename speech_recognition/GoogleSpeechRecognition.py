@@ -26,7 +26,7 @@ class GoogleSpeechRecognition(SpeechRecognitionInterface):
         blob.upload_from_filename(source_file_name)
     
     def delete_audio(self, destination_blob_name):
-        """Deletes a blob from the bucket."""
+        """Deletes a file from the bucket."""
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(self.bucket_name)
         blob = bucket.blob(destination_blob_name)
