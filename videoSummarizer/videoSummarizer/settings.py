@@ -25,7 +25,7 @@ SECRET_KEY = 'up^8k+1xn1ghtfz3#^kh25rrlm)*r5nh69(4!rve&$o3f9ospp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'videoSummarizer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'summarize/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,9 +63,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
+]
+
+FILE_UPLOAD_HANDLERS = [
+    "django.core.files.uploadhandler.MemoryFileUploadHandler"
 ]
 
 WSGI_APPLICATION = 'videoSummarizer.wsgi.application'
@@ -80,7 +85,7 @@ DATABASES = {
         'NAME': 'VideoSummarizer',
         'USER': 'akanksha',
         'PASSWORD': 'Akanksha21!',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
@@ -124,3 +129,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+LOGIN_REDIRECT_URL = '/userpage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = 'media/'

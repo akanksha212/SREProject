@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.forms import ModelForm
 
 class User(models.Model):
     UserID = models.AutoField(primary_key=True)
@@ -15,7 +16,11 @@ class User(models.Model):
 # Can merge Video and VideoUser table?
 class Video(models.Model):
     VideoID = models.AutoField(primary_key=True)
-    VideoPath = models.CharField(max_length=120)
+    # VideoPath = models.CharField(max_length=120)
+    VideoPath = models.FileField(upload_to='videos/', null=True, verbose_name="",)
+
+    def __str__(self):
+        return "Video: " + str(self.VideoPath)
 
 class UserVideo(models.Model):
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -51,6 +56,10 @@ class SplitTag(models.Model):
     Tag = models.CharField(max_length=50)
 
 
+# class VideoForm(ModelForm):
+#     class Meta:
+#         model= Video
+#         fields= ["VideoID", "VideoPath"]
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
