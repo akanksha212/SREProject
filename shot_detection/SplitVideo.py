@@ -3,31 +3,43 @@ import os
 import math
 import datetime
 import secrets
+import ffmpeg
 
 from SplitVideoInterface import SplitVideoInterface
 from PySceneDetection import PySceneDetection
 
 class SplitVideo(SplitVideoInterface):
-    def __init__(self, no_of_bytes = 32, threshold = 20):
+    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = 'video_scenes/', output_format = 'mp4'):
         self.video_name = str()
-        self.no_of_bytes = 32
-        self.threshold = 20
+        self.no_of_bytes = no_of_bytes
+        self.threshold = threshold
+        self.output_path = output_path
+        self.output_format = output_format
 
     def video_splits(self, local_video_path):
         ob = PySceneDetection()
         ob.detect_scenes(local_video_path)
-        self.video_name = local_video_path.split('/')[-1].split('.')[0]
-        self.best_splits(self.video_name + '_split_times.csv', local_video_path)
-
-    def best_splits(self, local_file_path, local_video_path):
-        """Splits the given video as detected by Class PySceneDetection"""
+        self.video_name = ob.get_video_name_from_filepath(local_video_path)
+        local_file_path = self.video_name+'_split_times.csv'
         dataframe = pd.read_csv(local_file_path)
-        video_name = local_file_path.split('_')[0]
-        command = 'ffmpeg -i ' + local_video_path
-        video_parameter = ' -vcodec copy -acodec copy -ss '
-        end_time_parameter = ' -to '
-        file_extension = '.mp4'
-        command += video_parameter
         for index, rows in dataframe.iterrows():
-            generate_command = command + rows['Start Timecode'] + end_time_parameter + rows['End Timecode']
-            os.system(generate_command + ' ' + rows['filename'] + file_extension)
+            self.best_splits(local_video_path, self.output_path + rows['filename']+'.mp4', rows['Start Timecode'],\
+             rows['End Timecode'] )
+    
+    def best_splits(self, input_path, output_path, start_time, end_time):
+        """Splits the given video as detected by Class PySceneDetection"""
+        try:
+            stream = ffmpeg.input(input_path)
+            stream = ffmpeg.output(
+                stream,
+                output_path,          # Output file path 
+                f=self.output_format, # Output file format            
+                vcodec="copy",        # The video codec
+                acodec="copy",        # The audio codec
+                ss=start_time,        # Start time of split
+                to=end_time           # End time of split
+            )
+            stream.run()
+        except ffmpeg.Error as e:
+            print('stdout:', e.stdout.decode('utf8'))
+            print('stderr:', e.stderr.decode('utf8'))

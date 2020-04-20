@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import math
-import datetime
+from datetime import datetime, timedelta
 
 from ShotDetectionInterface import ShotDetectionInterface
 import secrets
@@ -9,11 +9,11 @@ import secrets
 
 class PySceneDetection(ShotDetectionInterface):
     def __init__(self, no_of_bytes = 32, threshold = 20, output_path = 'video_scenes'):
-        self.no_of_bytes = 32
+        self.no_of_bytes = no_of_bytes
         self.modified_split = pd.DataFrame()
         self.to_add = 0
-        self.threshold = 20
-        self.output_path = 'video_scenes'
+        self.threshold = threshold
+        self.output_path = output_path
         self.video_name = str()
 
     def generate_scenes(self, local_video_path):
@@ -115,8 +115,11 @@ class PySceneDetection(ShotDetectionInterface):
                 self.intermediate_frames(row)
         self.modified_split.to_csv(self.video_name+'_split_times.csv',index=False)
 
+    def get_video_name_from_filepath(self, local_video_path):
+        return local_video_path.split('/')[-1].split('.')[0]
+
     def detect_scenes(self, local_video_path):
-        self.video_name = local_video_path.split('/')[-1].split('.')[0]
+        self.video_name = self.get_video_name_from_filepath(local_video_path)
         self.generate_scenes(local_video_path)
         generated_csv = self.output_path + '/' + self.video_name + '.stats.csv'
         df = pd.read_csv(generated_csv,skiprows=1)
@@ -128,12 +131,8 @@ class PySceneDetection(ShotDetectionInterface):
 
     def convert_str_to_datetime(self, str_time):
         """Converts string to datetime object"""
-        lst = str_time.split(':')
-        hours = int(lst[0])
-        minutes = int(lst[1])
-        seconds = int(lst[2].split('.')[0])
-        milliseconds = int(lst[2].split('.')[1][:3])
-        time_object = datetime.timedelta(hours=hours,minutes=minutes,seconds=seconds,milliseconds=milliseconds)
+        obj = datetime.strptime(str_time, '%H:%M:%S.%f')
+        time_object = timedelta(hours=obj.hour,minutes=obj.minute,seconds=obj.second,milliseconds=obj.microsecond/1e3)
         return time_object
 
     def search_threshold(self, length_of_video, local_file_path):
