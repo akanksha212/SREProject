@@ -8,22 +8,24 @@ import secrets
 
 
 class PySceneDetection(ShotDetectionInterface):
-    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = 'video_scenes'):
+    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = 'video_scenes/', video_format = '.mp4'):
         self.no_of_bytes = no_of_bytes
         self.modified_split = pd.DataFrame()
         self.to_add = 0
         self.threshold = threshold
         self.output_path = output_path
         self.video_name = str()
+        self.video_format = video_format
 
     def generate_scenes(self, local_video_path):
         """Generates csv for detecting important scenes"""
         command = 'scenedetect --input '  
+        framerate_parameter = ' -f 29.97 '
         output_parameter = ' --output ' + self.output_path
         stats_parameter = ' --stats ' + self.video_name + '.stats.csv'
         detect_content_parameter = ' detect-content -t ' + str(self.threshold)
         list_scenes_parameter = ' list-scenes'
-        execute_command = (command + local_video_path + output_parameter + stats_parameter)
+        execute_command = (command + local_video_path + framerate_parameter + output_parameter + stats_parameter)
         execute_command += (detect_content_parameter + list_scenes_parameter)
         os.system(execute_command)
 
@@ -81,7 +83,7 @@ class PySceneDetection(ShotDetectionInterface):
         duration = self.convert_str_to_datetime(row['Length (timecode)'])/no_of_splits
         if self.to_add == 1:
             start_time = self.convert_str_to_datetime(list(self.modified_split['Start Timecode'])[-1])
-            new_duration = duration + convert_str_to_datetime(list(self.modified_split['Length (timecode)'])[-1])
+            new_duration = duration + self.convert_str_to_datetime(list(self.modified_split['Length (timecode)'])[-1])
             self.modified_split.drop(modified_split.tail(1).index,inplace=True)
         else:
             start_time = self.convert_str_to_datetime(row['Start Timecode'])
@@ -94,7 +96,7 @@ class PySceneDetection(ShotDetectionInterface):
         values = []
         filename = self.get_random_video_name()
         if self.to_add == 1:
-            values = add_last_frame(row)
+            values = self.add_last_frame(row)
             self.modified_split.drop(self.modified_split.tail(1).index,inplace=True)
         else:
             values = [row['Start Timecode'], row['End Timecode'], row['Length (timecode)']]
@@ -113,7 +115,7 @@ class PySceneDetection(ShotDetectionInterface):
                 self.small_frames(row)
             else:
                 self.intermediate_frames(row)
-        self.modified_split.to_csv(self.video_name+'_split_times.csv',index=False)
+        self.modified_split.to_csv(self.output_path+self.video_name+'_split_times.csv',index=False)
 
     def get_video_name_from_filepath(self, local_video_path):
         return local_video_path.split('/')[-1].split('.')[0]
@@ -121,13 +123,13 @@ class PySceneDetection(ShotDetectionInterface):
     def detect_scenes(self, local_video_path):
         self.video_name = self.get_video_name_from_filepath(local_video_path)
         self.generate_scenes(local_video_path)
-        generated_csv = self.output_path + '/' + self.video_name + '.stats.csv'
+        generated_csv = self.output_path + self.video_name + '.stats.csv'
         df = pd.read_csv(generated_csv,skiprows=1)
         video_len = df['Timecode'].max().split(':')
         video_len = int(video_len[0]*60) + int(video_len[1])
         self.threshold = self.search_threshold(video_len ,generated_csv)
         self.generate_scenes(local_video_path)
-        self.get_optimal_splits(self.output_path + '/' + self.video_name + '-Scenes.csv')
+        self.get_optimal_splits(self.output_path + self.video_name + '-Scenes.csv')
 
     def convert_str_to_datetime(self, str_time):
         """Converts string to datetime object"""
