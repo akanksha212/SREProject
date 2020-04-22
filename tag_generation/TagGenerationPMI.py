@@ -8,7 +8,9 @@ class TagGenrationPMI(TagGenerationInterface):
         self.freq_filter = freq_filter
         self.num_keywords = num_keywords
     
-    def generate_tags(self, data):
+    def generate_tags(self, data, top_n):
+        
+        self.num_keywords = top_n
         bigram_measures = nltk.collocations.BigramAssocMeasures()
         trigram_measures = nltk.collocations.TrigramAssocMeasures()
         
