@@ -13,7 +13,7 @@ class TagGenrationAlgorithmia(TagGenerationInterface):
     def __init__(self, timeout = 300):
         self.timeout = timeout
     
-    def generate_tags(self, data):
+    def generate_tags(self, data, top_n):
         client = Algorithmia.client(KEY)
         algo = client.algo('nlp/AutoTag/1.0.1')
         algo.set_options(timeout=self.timeout)
