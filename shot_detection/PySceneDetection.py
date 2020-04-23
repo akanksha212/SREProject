@@ -53,29 +53,33 @@ class PySceneDetection(ShotDetectionInterface):
         duration = self.convert_str_to_datetime(list(self.modified_split['Length (timecode)'])[-1])
         duration += self.convert_str_to_datetime(row['Length (timecode)'])
         end_time = start_time + duration
-        return [str(start_time), str(end_time), str(duration)]
+        start_time = list(self.modified_split['Start Timecode'])[-1]
+        return [start_time, str(end_time), str(duration)]
 
     def small_frames(self, row):
         filename = self.get_random_video_name()
         if len(self.modified_split) != 0:
             values = self.add_last_frame(row)
             self.modified_split.drop(self.modified_split.tail(1).index,inplace=True)
+            self.to_add = 0
         else:
             self.to_add = 1
-            values = [row['Start Timecode'], str(row['End Timecode']), str(row['Length (timecode)'])]
+            values = [str(row['Start Timecode']), str(row['End Timecode']), str(row['Length (timecode)'])]
         self.append_dataframe(values, filename)
 
     def next_frames(self, no_of_splits, duration, row):
         for i in range(1,no_of_splits - 1):
             start_time = self.convert_str_to_datetime(list(self.modified_split['End Timecode'])[-1])
-            values = [str(start_time), str(start_time + duration), str(duration)]
+            start_time_act = list(self.modified_split['End Timecode'])[-1]
+            values = [start_time_act, str(start_time + duration), str(duration)]
             filename = self.get_random_video_name()
             self.append_dataframe(values, filename)
         start_time = self.convert_str_to_datetime(list(self.modified_split['End Timecode'])[-1])
         rem_length = self.convert_str_to_datetime(row['Length (timecode)']) 
         rem_length -= (duration*(no_of_splits-1))
         filename = self.get_random_video_name()
-        values = [str(start_time), str(start_time + rem_length), str(rem_length)]
+        start_time_act = list(self.modified_split['End Timecode'])[-1]
+        values = [start_time_act, str(start_time + rem_length), str(rem_length)]
         self.append_dataframe(values, filename)
 
     def large_frames(self, row, no_of_splits):
@@ -84,11 +88,14 @@ class PySceneDetection(ShotDetectionInterface):
         if self.to_add == 1:
             start_time = self.convert_str_to_datetime(list(self.modified_split['Start Timecode'])[-1])
             new_duration = duration + self.convert_str_to_datetime(list(self.modified_split['Length (timecode)'])[-1])
+            start_time_act = list(self.modified_split['Start Timecode'])[-1]
             self.modified_split.drop(modified_split.tail(1).index,inplace=True)
+            self.to_add = 0
         else:
             start_time = self.convert_str_to_datetime(row['Start Timecode'])
+            start_time_act = str(start_time)
             new_duration = duration
-        values = [str(start_time), str(start_time + new_duration), str(new_duration)]
+        values = [start_time_act, str(start_time + new_duration), str(new_duration)]
         self.append_dataframe(values, filename)
         self.next_frames(no_of_splits, duration, row)
 
@@ -98,8 +105,9 @@ class PySceneDetection(ShotDetectionInterface):
         if self.to_add == 1:
             values = self.add_last_frame(row)
             self.modified_split.drop(self.modified_split.tail(1).index,inplace=True)
+            self.to_add = 0
         else:
-            values = [row['Start Timecode'], row['End Timecode'], row['Length (timecode)']]
+            values = [str(row['Start Timecode']), str(row['End Timecode']), str(row['Length (timecode)'])]
         self.append_dataframe(values, filename)
 
     def get_optimal_splits(self, local_file_path):
