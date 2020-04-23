@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Summarizer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="{% static 'css/product.css' %}">
+
+</head>
+<body>
+
+<!-- Todo: Make current class active -->
+	<nav class="navbar navbar-fixed-top" style="background-color: #007bff; padding-right: 25px;">
+			<div class="navbar-header">	
+				<a href="{% url 'homepage' %}" class="navbar-brand">
+					<h2 style="margin: 0">Video Summarizer</h2>
+				</a>
+ 			</div>
+			 <div class ="ankit">
+			 <ul class="nav navbar-nav navbar-right">
+				<li>{% block nav-home %}<a href="{% url 'homepage' %}">Home</a>{% endblock %}</li>
+		        
+		        {% if user.is_authenticated and user.is_superuser %}
+					<li>{% block nav-admin %}<a href="/admin">Dashboard</a>{% endblock %}</li>
+					<li><a href="{% url 'logout' %}">Logout</a></li>
+		        
+		        {% elif user.is_authenticated %}
+					<li><a href="{% url 'video_new' %}">Upload Video</a></li>
+					<li><a href="{% url 'logout' %}">Logout</a></li>
+
+      			{% else %}
+      				<li><a href = "{% url 'login' %}"> Login </a> </li>
+      				<li><a href = "{% url 'signup' %}"> Signup </a> </li>
+      			{% endif %}
+
+<!-- 				<li>
+					<div class="input-group">
+				  		<input type="text" name="q" id="search" placeholder="search" class="form-control"
+				  style="width: 150px">
+					<span class="input-group-btn">
+					<button type="submit" class="btn btn-primary" onclick="foo();"><span style="font-size:1em" class="glyphicon glyphicon-search"></span> </button>
+					</span>
+					</div>
+
+				</li>
+ -->
+ 			</ul></div>
+ 		</div>
+ 	</nav>
+
+
+	<br><br><br><br>
+	<div class="content container">
+		<div class="row">
+			<div class="col-md-8">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+
+ <div class="custom-footer">
+</div>
+</div> 
+</body>
+</html>
