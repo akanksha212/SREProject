@@ -30,13 +30,18 @@ class SignUpForm(UserCreationForm):
 
     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder' : 'Username'}))
     email = forms.EmailField(max_length=254,  widget=forms.TextInput(attrs={'placeholder' : 'Email'}))
+    first_name = forms.CharField(max_length=254,  widget=forms.TextInput(attrs={'placeholder' : 'First Name'}))
+    last_name = forms.CharField(max_length=254,  widget=forms.TextInput(attrs={'placeholder' : 'Last Name'}))
         
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2',)
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2',)
 
     def clean_username(self):
-        return clean_unique(self, 'username') 
+        return clean_unique(self, 'username')
+    
+    def clean_email(self):
+        return clean_unique(self, 'email')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
