@@ -20,4 +20,5 @@ urlpatterns = [
         core_views.activate, name='activate'),
     url(r'^video/new/$', core_views.video_new, name='video_new'),
     url(r'^video/(?P<pk>\d+)/$',core_views.video_detail, name='video_detail'),
+    url(r'^videos/$', views.video_list, name='video_list'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
