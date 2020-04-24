@@ -16,6 +16,7 @@ from summarize.tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 import json
@@ -50,6 +51,9 @@ def mail_user(user, current_site):
         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': account_activation_token.make_token(user),
     })
+    sender_email = settings.EMAIL_HOST_USER
+    recipient_list = [user.email]
+    # send_mail(subject, message, sender_email, recipient_list)
     user.email_user(subject, message)
 
 
