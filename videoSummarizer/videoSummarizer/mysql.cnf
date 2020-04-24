@@ -1,0 +1,6 @@
+[client]
+database = VideoSummarizer
+host = localhost
+user = akanksha
+password = Akanksha21!
+default-character-set = utf8

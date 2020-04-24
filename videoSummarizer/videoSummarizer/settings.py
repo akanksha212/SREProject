@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#........... add the files here
+sys.path.append("../shot_detection")
+sys.path.append("../audio_generation")
 
 
 # Quick-start development settings - unsuitable for production
@@ -82,11 +86,9 @@ WSGI_APPLICATION = 'videoSummarizer.wsgi.application'
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'VideoSummarizer',
-        'USER': 'akanksha',
-        'PASSWORD': 'Akanksha21!',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+       'OPTIONS': {
+            'read_default_file': '/home/shreya/Desktop/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
+        },
     }
 }
 
@@ -129,6 +131,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-LOGIN_REDIRECT_URL = '/userpage'
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'homepage'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = 'media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+GOOGLE_RECAPTCHA_SECRET_KEY = '6Lf9tTUUAAAAAFveDdOe0qNVcxBkqvs7oQ1CRfav'
+
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
