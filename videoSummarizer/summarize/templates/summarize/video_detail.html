@@ -2,10 +2,11 @@
 {% block content %}
 <br>
 <br>
-{{ MEDIA_URL }}{{ video.VideoPath }}
+
+
 <div class="post">
     <video width='400' controls>
-        <source src='{{ MEDIA_URL }}{{ video.VideoPath }}' type='video/mp4'>
+        <source src="{{ video.VideoPath.url }}" type='video/mp4'>
     </video>
 </div>
 {% endblock %}

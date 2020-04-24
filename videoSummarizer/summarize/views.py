@@ -119,3 +119,16 @@ def video_detail(request, pk):
     video = get_object_or_404(Video, pk=pk)
     print(video)
     return render(request, 'summarize/video_detail.html', {'video' : video})
+
+@login_required
+def video_list(request):
+    videos = Video.objects.filter(UserID = request.user)
+    paginator = Paginator(videos, 5)
+    page = request.GET.get('page')
+    try:
+        videos = paginator.page(page)
+    except PageNotAnInteger:
+        videos = paginator.page(1)
+    except EmptyPage:
+        videos = paginator.page(paginator.num_pages)
+    return render(request, 'summarize/video_list.html', {'videos': videos})

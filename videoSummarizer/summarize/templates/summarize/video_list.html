@@ -1,0 +1,34 @@
+{% extends 'summarize/base.html' %}
+
+
+{% block content %}
+<!-- {% if user.is_authenticated %}
+<p align="right"><a href="{% url 'video_new' %}" class="btn btn-warning" role="button">Add New Video</a></p>
+{% endif %}
+ -->
+<br>
+{% for video in videos %}
+	<div class="custom-card1">
+		<h1><a href="{% url 'video_detail' pk=video.pk %}"> {{ video.VideoPath }}</a></h1>
+	 <br>
+    </div>
+{% endfor %}
+
+
+
+<div class="pagination" style="margin-left:120px">
+    <span class="step-links">
+        {% if videos.has_previous %}
+            <a href="?page={{ videos.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ videos.number }} of {{ videos.paginator.num_pages }}.
+        </span>
+
+        {% if videos.has_next %}
+            <a href="?page={{ videos.next_page_number }}"> Next</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

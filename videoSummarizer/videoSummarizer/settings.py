@@ -132,8 +132,8 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'homepage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lf9tTUUAAAAAFveDdOe0qNVcxBkqvs7oQ1CRfav'
