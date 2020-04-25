@@ -89,7 +89,7 @@ class PySceneDetection(ShotDetectionInterface):
             start_time = self.convert_str_to_datetime(list(self.modified_split['Start Timecode'])[-1])
             new_duration = duration + self.convert_str_to_datetime(list(self.modified_split['Length (timecode)'])[-1])
             start_time_act = list(self.modified_split['Start Timecode'])[-1]
-            self.modified_split.drop(modified_split.tail(1).index,inplace=True)
+            self.modified_split.drop(self.modified_split.tail(1).index,inplace=True)
             self.to_add = 0
         else:
             start_time = self.convert_str_to_datetime(row['Start Timecode'])
