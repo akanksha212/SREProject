@@ -9,17 +9,19 @@
 <br>
 {% for video in videos %}
 	<div class="custom-card1">
-		<h1><a href="{% url 'video_detail' pk=video.pk %}"> {{ video.VideoPath }}</a></h1>
+		<h1><a href="{% url 'video_detail' pk=video.pk %}"> {{ video.Name }}</a></h1>
 	 <br>
     </div>
 {% endfor %}
 
 
-
+<center>
 <div class="pagination" style="margin-left:120px">
     <span class="step-links">
         {% if videos.has_previous %}
-            <a href="?page={{ videos.previous_page_number }}">Previous</a>
+        
+            <a href="?page={{ videos.previous_page_number }}"><button type="button" class="btn btn-info" >Previous</button></a>
+            
         {% endif %}
 
         <span class="current">
@@ -27,8 +29,10 @@
         </span>
 
         {% if videos.has_next %}
-            <a href="?page={{ videos.next_page_number }}"> Next</a>
+    
+            <a href="?page={{ videos.next_page_number }}"> <button type="button" class="btn btn-info"> Next</button></a>
         {% endif %}
     </span>
 </div>
+</center>
 {% endblock %}
