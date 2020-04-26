@@ -4,7 +4,7 @@ from django.utils import timezone
 from summarize.models import *
 from summarize.forms import SignUpForm
 from summarize.forms import VideoForm
-
+from summarize.modules import pre_process, tag_search
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -103,6 +103,22 @@ def activate(request, uidb64, token):
 def account_activation_sent(request):
     return render(request, 'summarize/account_activation_sent.html')
 
+def account_activation_sent(request):
+    return render(request, 'summarize/account_activation_sent.html')
+
+@login_required
+def video_new(request):
+    if request.method == 'POST':
+        form = VideoForm(request.POST, request.FILES)
+        print(request.FILES)
+        if form.is_valid():
+            video = form.save(commit=False)
+            video.UserID = request.user
+            video.save()
+            
+            # called pre_process of modules.py
+            # pre_process(video.VideoPath, video.id)
+            # tag_search('prophase')
 
 @login_required
 def video_new(request):

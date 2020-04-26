@@ -19,7 +19,8 @@
 <body>
 
 <!-- Todo: Make current class active -->
-	<nav class="navbar navbar-fixed-top" style="background-color: #02070c; padding-right: 25px;">
+<nav class="navbar navbar-fixed-top" style="background-color: #02070c; padding-right: 25px;">
+	<div class="navbar-header">	
 			<div class="navbar-header">	
 				<a href="{% url 'homepage' %}" class="navbar-brand">
 					<h2 style="margin: 0">Video Summarizer</h2>
@@ -30,17 +31,20 @@
 				<li>{% block nav-home %}<a href="{% url 'homepage' %}"><span class="glyphicon glyphicon-home"></span> Home</a>{% endblock %}</li>
 		        
 		        {% if user.is_authenticated and user.is_superuser %}
-					<li>{% block nav-admin %}<a href="/admin">Dashboard</a>{% endblock %}</li>
-					<li><a href="{% url 'logout' %}">Logout</a></li>
+
+							<li><a href="{% url 'video_new' %}"> <span class="glyphicon glyphicon-upload"></span> Upload Video</a></li>
+							<li><a href="{% url 'logout' %}"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		
 		        
 		        {% elif user.is_authenticated %}
-					<li><a href="{% url 'video_new' %}"> <span class="glyphicon glyphicon-upload"></span> Upload Video</a></li>
-					<li><a href="{% url 'logout' %}"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					<li><a href="{% url 'video_new' %}">Upload Video</a></li>
+					<li><a href="{% url 'logout' %}">Logout</a></li>
 
       			{% else %}
-      				<li><a href = "{% url 'login' %}"> <span class="glyphicon glyphicon-log-in"></span> Login </a> </li>
-      				<li><a href = "{% url 'signup' %}"> <span class="glyphicon glyphicon-user"></span> Signup </a> </li>
-      			{% endif %}
+							<li><a href = "{% url 'login' %}"> <span class="glyphicon glyphicon-log-in"></span> Login </a> </li>
+							<li><a href = "{% url 'signup' %}"> <span class="glyphicon glyphicon-user"></span> Signup </a> </li>
+					{% endif %}
+      			
 
 <!-- 				<li>
 					<div class="input-group">
@@ -69,6 +73,7 @@
 	</div>
 
  <!-- <div class="custom-footer"> -->
+
 </div>
 </div> 
 </body>
