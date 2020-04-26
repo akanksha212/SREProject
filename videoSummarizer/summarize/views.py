@@ -4,7 +4,7 @@ from django.utils import timezone
 from summarize.models import *
 from summarize.forms import SignUpForm
 from summarize.forms import VideoForm
-from summarize.modules import pre_process
+from summarize.modules import pre_process, tag_search
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -16,6 +16,7 @@ from summarize.tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 import json
@@ -50,6 +51,9 @@ def mail_user(user, current_site):
         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': account_activation_token.make_token(user),
     })
+    sender_email = settings.EMAIL_HOST_USER
+    recipient_list = [user.email]
+    # send_mail(subject, message, sender_email, recipient_list)
     user.email_user(subject, message)
 
 
@@ -109,8 +113,11 @@ def video_new(request):
             video = form.save(commit=False)
             video.UserID = request.user
             video.save()
+            
             # called pre_process of modules.py
-            pre_process(Video.VideoPath, Video.id)
+            # pre_process(video.VideoPath, video.id)
+            # tag_search('prophase')
+
             return redirect('video_detail', pk=video.pk)
     else:
         form = VideoForm()
@@ -121,3 +128,16 @@ def video_detail(request, pk):
     video = get_object_or_404(Video, pk=pk)
     print(video)
     return render(request, 'summarize/video_detail.html', {'video' : video})
+
+@login_required
+def video_list(request):
+    videos = Video.objects.filter(UserID = request.user)
+    paginator = Paginator(videos, 5)
+    page = request.GET.get('page')
+    try:
+        videos = paginator.page(page)
+    except PageNotAnInteger:
+        videos = paginator.page(1)
+    except EmptyPage:
+        videos = paginator.page(paginator.num_pages)
+    return render(request, 'summarize/video_list.html', {'videos': videos})

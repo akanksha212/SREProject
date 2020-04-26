@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import subprocess
 import math
 from datetime import datetime, timedelta
 
@@ -8,7 +9,7 @@ import secrets
 
 
 class PySceneDetection(ShotDetectionInterface):
-    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = '../shot_detection/video_scenes/', video_format = '.mp4'):
+    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = './shot_detection/video_scenes/', video_format = '.mp4'):
         self.no_of_bytes = no_of_bytes
         self.modified_split = pd.DataFrame()
         self.to_add = 0
@@ -19,15 +20,15 @@ class PySceneDetection(ShotDetectionInterface):
 
     def generate_scenes(self, local_video_path):
         """Generates csv for detecting important scenes"""
-        command = 'scenedetect --input '  
-        framerate_parameter = ' -f 29.97 '
-        output_parameter = ' --output ' + self.output_path
-        stats_parameter = ' --stats ' + self.video_name + '.stats.csv'
-        detect_content_parameter = ' detect-content -t ' + str(self.threshold)
-        list_scenes_parameter = ' list-scenes'
-        execute_command = (command + local_video_path + framerate_parameter + output_parameter + stats_parameter)
-        execute_command += (detect_content_parameter + list_scenes_parameter)
-        os.system(execute_command)
+        command_list = ['scenedetect']
+        inputs = ['-i', os.path.abspath(local_video_path)]
+        framerate = ['-f', '29.97']
+        output = ['-o', self.output_path]
+        stats = ['-s', self.video_name + '.stats.csv']
+        detect_content = ['detect-content', '-t', str(self.threshold)]
+        list_scenes = ['list-scenes']
+        execute_command = (command_list + inputs + framerate + output + stats + detect_content + list_scenes)
+        subprocess.call(execute_command)
 
     def get_random_video_name(self):
         return secrets.token_urlsafe(self.no_of_bytes)

@@ -9,6 +9,7 @@ from pydub import AudioSegment
 from SpeechRecognitionInterface import SpeechRecognitionInterface
 from SpeechRecognitionConfig import GOOGLE_CLOUD_BUCKET_NAME
 
+storage.blob._DEFAULT_CHUNKSIZE = 10 * 1024* 1024  #10 MB
 
 class GoogleSpeechRecognition(SpeechRecognitionInterface):
     def __init__(self, language, blob_length=32, enable_separate_recognition_per_channel=True):

@@ -9,7 +9,7 @@ from SplitVideoInterface import SplitVideoInterface
 from PySceneDetection import PySceneDetection
 
 class SplitVideo(SplitVideoInterface):
-    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = '../shot_detection/video_scenes/', video_format = '.mp4'):
+    def __init__(self, no_of_bytes = 32, threshold = 20, output_path = './shot_detection/video_scenes/', video_format = '.mp4'):
         self.video_name = str()
         self.no_of_bytes = no_of_bytes
         self.threshold = threshold

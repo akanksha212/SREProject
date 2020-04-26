@@ -35,27 +35,51 @@ class Video(models.Model):
 
 
 class Split(models.Model):
-    SplitPath = models.CharField(max_length=120)
+    SplitPath = models.CharField(max_length=400)
+
+    def __str__(self):
+        return str(str(self.id) +":" +self.SplitPath)
 
 class VideoSplit(models.Model):
-    VideoID = models.ForeignKey(Video, on_delete=models.CASCADE, primary_key=True)
+    VideoID = models.ForeignKey(Video, on_delete=models.CASCADE)
     SplitID = models.ForeignKey(Split, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.VideoID
+
+    class Meta:
+        unique_together = (('VideoID', 'SplitID'),)
 
 class SplitTranscript(models.Model):
     SplitID =  models.ForeignKey(Split, on_delete=models.CASCADE, primary_key=True)
-    TranscriptPath = models.CharField(max_length=120)
+    TranscriptPath = models.CharField(max_length=400)
+
+    def __str__(self):
+        return self.TranscriptPath
 
 class SplitSpeech(models.Model):
     SplitID = models.ForeignKey(Split, on_delete=models.CASCADE, primary_key=True)
-    SpeechPath = models.CharField(max_length=120)
+    SpeechPath = models.CharField(max_length=400)
+
+    def __str__(self):
+        return self.SpeechPath
 
 class SplitSummary(models.Model):
     SplitID =  models.ForeignKey(Split, on_delete=models.CASCADE, primary_key=True)
-    SummaryPath = models.CharField(max_length=120)
+    Summary = models.CharField(max_length=400)
+
+    def __str__(self):
+        return self.Summary
 
 class SplitTag(models.Model):
+    SplitID =  models.ForeignKey(Split, on_delete=models.CASCADE)
+    Tag = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.SplitID)
+    
     class Meta:
         unique_together = (('SplitID', 'Tag'),)
 
-    SplitID =  models.ForeignKey(Split, on_delete=models.CASCADE)
-    Tag = models.CharField(max_length=50)
+
+    

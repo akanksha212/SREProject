@@ -16,8 +16,11 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #........... add the files here
-sys.path.append("../shot_detection")
-sys.path.append("../audio_generation")
+sys.path.append(os.path.join(BASE_DIR,"shot_detection"))
+sys.path.append(os.path.join(BASE_DIR, "audio_generation"))
+sys.path.append(os.path.join(BASE_DIR,"speech_recognition"))
+sys.path.append(os.path.join(BASE_DIR,"tag_generation"))
+sys.path.append(os.path.join(BASE_DIR,"summarization"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -142,5 +145,12 @@ MEDIA_URL = 'media/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lf9tTUUAAAAAFveDdOe0qNVcxBkqvs7oQ1CRfav'
 
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'your email id'
+EMAIL_HOST_PASSWORD = 'password'
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
