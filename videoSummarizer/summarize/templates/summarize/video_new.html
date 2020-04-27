@@ -1,10 +1,22 @@
 {% extends 'summarize/base.html' %}
 {% block content %}
-    <h1>Upload Video</h1>
+    <div class="custom-card my-auto">
+        <h2>Upload Video</h2>
+        <br/>
+        <form method="POST"  action = "{% url 'video_new' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p class="custom-input">
+                {{ form }}
+            </p>
+            <button type="submit" value="Upload">Upload</button>
+        </form>
+    </div>
+
+    <!-- <h1>Upload Video</h1>
     <br>
     <form method="POST"  action = "{% url 'video_new' %}" enctype="multipart/form-data">
     	{% csrf_token %}
         {{ form.as_p }}
         <input type="submit" class="button" value="Upload"/>
-    </form>
+    </form> -->
 {% endblock %}

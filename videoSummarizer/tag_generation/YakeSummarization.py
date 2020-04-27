@@ -8,7 +8,7 @@ class YakeSummarization(TagGenerationInterface):
     
     def generate_tags(self, text, top_n=10):
         keywords_score = self.keyword_extractor.extract_keywords(text)
-        scores, keywords = list(zip(*keywords_score))
+        keywords, scores = list(zip(*keywords_score))
         best_keywords = self.get_best_keywords(keywords, top_n)
         return best_keywords
     

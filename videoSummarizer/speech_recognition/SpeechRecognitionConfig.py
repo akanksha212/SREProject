@@ -1,1 +1,1 @@
-GOOGLE_CLOUD_BUCKET_NAME = "se_project"
+GOOGLE_CLOUD_BUCKET_NAME = "software_engineering_project"

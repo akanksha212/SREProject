@@ -17,7 +17,6 @@
     margin-bottom: 70px;
     margin : 0 auto;
     color : #006fe6;
-   
 }
 
 .post h1 a, .post h1 a:visited ,.post h3{
@@ -105,18 +104,30 @@ font-size: 12pt;
     border-radius: 5px;
     border: 1px solid #eee;
     padding: 10px;
-    width: 200px;
+}
+
+.custom-input-1 > input, .custom-input-1 > select {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 10px;
+    width: 265px;
+}
+
+.custom-input-1 > label {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 14px;
 }
 
 .custom-card {
     width: 380px;
-    /*margin: 0 auto;*/
+    margin: 0 auto;
     box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12), 0px 1px 4px rgba(0, 0, 0, 0.12);
     border-radius: 5px;
     padding: 20px;
-    position: fixed;
-    margin-top: 20px;
-    margin-left: calc(50% - 190px);
+    /* position: fixed; */
+    /* margin-top: 20px; */
+    /* margin-left: calc(50% - 300px); */
     z-index: 2;
     background-color: white;
 }
@@ -144,7 +155,9 @@ font-size: 12pt;
 
 
 .custom-card > form > p > input, .custom-card > form > p > select,.custom-card > form > a {
-    margin-left: calc(50% - 100px);
+    /* margin-left: calc(50% - 100px); */
+    /* margin-left: calc(50%); */
+    margin: 0 auto;
 }
 
 .custom-card > h2 {
@@ -180,10 +193,36 @@ body {
     text-transform: capitalize;
 }
 
-/*.pagination {
-    display: inline-block;
+.video-disp {
+    margin: 0 auto;
+    margin-top: 0;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12), 0px 1px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    padding: 20px;
+    z-index: 2;
+    background-color: white;
 }
-*/
+
+.video-disp > video {
+    margin: 0 auto;
+    display: block;
+}
+
+.video-disp > h1 {
+    text-align: center;
+}
+
+.pagination {
+    /* display: block; */
+    margin: 0 auto;
+}
+
+.pagination a {
+    /* display: block; */
+    /* margin: 0 auto; */
+    text-align: center;
+}
+
 /*.pagination span a {
     color: black;
     float: left;
