@@ -25,20 +25,26 @@
 			<a href="{% url 'homepage' %}" class="navbar-brand" href="#"> Video Summarizer </a>
 			<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">{% block nav-home %}<a class="nav-link" href="{% url 'video_list' %}">Home</a>{% endblock %}</li>
+					<li class="nav-item">{% block nav-home %}<a class="nav-link" href="{% url 'homepage' %}">Home</a>{% endblock %}</li>
 					{% if user.is_authenticated and user.is_superuser %}
 						<!-- <li class="nav-item">{% block nav-admin %}<a href="/admin">Dashboard</a>{% endblock %}</li> -->
 						<li class="nav-item"><a class="nav-link" href="/admin">Dashboard</a></li>
 						<li class="nav-item"><a class="nav-link" href="{% url 'video_new' %}">Upload Video</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'video_list' %}">My Videos</a></li>
 						<li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
 			        {% elif user.is_authenticated %}
 						<li class="nav-item"><a class="nav-link" href="{% url 'video_new' %}">Upload Video</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'video_list' %}">My Videos</a></li>
 						<li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
     	  			{% else %}
       					<li class="nav-item"><a class="nav-link" href = "{% url 'login' %}"> Login </a> </li>
       					<li class="nav-item"><a class="nav-link" href = "{% url 'signup' %}"> Signup </a> </li>
       				{% endif %}
 				</ul>
+				<form class="form-inline my-2 my-lg-0" name="myform" method="GET" action="{% url 'search' %}">  
+    			  <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search">
+    			  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    			</form>
 			</div>
 		  </nav>
 	<br><br>
@@ -52,7 +58,7 @@
 	</div>
 
  <!-- <div class="custom-footer"> -->
-</div>
-</div>
+<!-- </div>
+</div> -->
 </body>
 </html>

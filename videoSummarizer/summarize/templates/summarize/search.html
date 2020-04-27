@@ -3,13 +3,7 @@
 
 {% block content %}
 <div class="jumbotron">
-    <h1 class="display-4">Hello, {{ user }}</h1>
-    <p class="lead">Welcome to our video summarization portal. Our portal can split your video into semantically meaningful portions and summarize the same for you. </p>
-    <hr class="my-4">
-    <p>We use State of the art NLP and computer vision methods to provide the most relevant and useful summaries. </p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="{% url 'video_new' %}" role="button">Upload Videos</a>
-    </p>
+    <h3 class="display-4">Hello {{ user }}, here are your search results.</h3>
   </div>
 <br>
 <table class="table table-hover">
@@ -32,7 +26,6 @@
     {% endfor %}
     </tbody>
 </table>
-
 
 <br>
 <div class="pagination" style="margin-left:45%">

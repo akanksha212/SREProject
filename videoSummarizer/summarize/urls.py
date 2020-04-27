@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^account_activation_sent/$', core_views.account_activation_sent, name='account_activation_sent'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         core_views.activate, name='activate'),
+    url(r'^search/$', views.search_tag, name='search'),
     url(r'^video/new/$', core_views.video_new, name='video_new'),
     url(r'^video/(?P<pk>\d+)/$',core_views.video_detail, name='video_detail'),
     url(r'^videos/$', views.video_list, name='video_list'),
