@@ -91,7 +91,7 @@ DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql',
        'OPTIONS': {
-            'read_default_file': '/home/nitesh/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
+            'read_default_file': '/home/blackeye/sem8/SWE/SWE-Assignments/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
         },
     }
 }
@@ -143,16 +143,16 @@ LOGIN_REDIRECT_URL = 'video_list'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lf9tTUUAAAAAFveDdOe0qNVcxBkqvs7oQ1CRfav'
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'your email id'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST_USER = 'gulshanmittalcode1@gmail.com'
+EMAIL_HOST_PASSWORD = 'test_swe@123'
 
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000

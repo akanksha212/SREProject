@@ -53,8 +53,8 @@ def mail_user(user, current_site):
     })
     sender_email = settings.EMAIL_HOST_USER
     recipient_list = [user.email]
-    # send_mail(subject, message, sender_email, recipient_list)
-    user.email_user(subject, message)
+    send_mail(subject, message, sender_email, recipient_list)
+    # user.email_user(subject, message)
 
 
 def signup(request):
