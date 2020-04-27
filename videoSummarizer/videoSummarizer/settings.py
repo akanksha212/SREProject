@@ -16,11 +16,12 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #........... add the files here
-sys.path.append(os.path.join(BASE_DIR,"shot_detection"))
+sys.path.append(os.path.join(BASE_DIR, "summarize"))
+sys.path.append(os.path.join(BASE_DIR, "shot_detection"))
 sys.path.append(os.path.join(BASE_DIR, "audio_generation"))
-sys.path.append(os.path.join(BASE_DIR,"speech_recognition"))
-sys.path.append(os.path.join(BASE_DIR,"tag_generation"))
-sys.path.append(os.path.join(BASE_DIR,"summarization"))
+sys.path.append(os.path.join(BASE_DIR, "speech_recognition"))
+sys.path.append(os.path.join(BASE_DIR, "tag_generation"))
+sys.path.append(os.path.join(BASE_DIR, "summarization"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -90,7 +91,7 @@ DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql',
        'OPTIONS': {
-            'read_default_file': '/home/nitesh/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
+            'read_default_file': '/Users/shashanks./college/semester-8/Software-Engineering/project/v1/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
         },
     }
 }

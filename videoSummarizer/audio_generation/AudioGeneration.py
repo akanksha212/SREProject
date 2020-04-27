@@ -5,7 +5,7 @@ class AudioGeneration():
     def __init__(self, output_format='wav', num_out_channels=1):
         self.output_format = output_format
         self.num_out_channels = num_out_channels
-    
+
     def convert_audio(self, input_path, output_path):
         try:
             stream = ffmpeg.input(input_path)

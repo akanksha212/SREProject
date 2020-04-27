@@ -2,5 +2,5 @@
 database = VideoSummarizer
 host = localhost
 user = root
-password = root
+password = test@123
 default-character-set = utf8

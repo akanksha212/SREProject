@@ -85,12 +85,12 @@ class PySceneDetection(ShotDetectionInterface):
 
     def large_frames(self, row, no_of_splits):
         filename = self.get_random_video_name()
-        duration = self.convert_str_to_datetime(row['Length (timecode)'])/no_of_splits
+        duration = self.convert_str_to_datetime(row['Length (timecode)']) / no_of_splits
         if self.to_add == 1:
             start_time = self.convert_str_to_datetime(list(self.modified_split['Start Timecode'])[-1])
             new_duration = duration + self.convert_str_to_datetime(list(self.modified_split['Length (timecode)'])[-1])
             start_time_act = list(self.modified_split['Start Timecode'])[-1]
-            self.modified_split.drop(modified_split.tail(1).index,inplace=True)
+            self.modified_split.drop(self.modified_split.tail(1).index,inplace=True)
             self.to_add = 0
         else:
             start_time = self.convert_str_to_datetime(row['Start Timecode'])
@@ -124,22 +124,22 @@ class PySceneDetection(ShotDetectionInterface):
                 self.small_frames(row)
             else:
                 self.intermediate_frames(row)
-        self.modified_split.to_csv(self.output_path+self.video_name+'_split_times.csv',index=False)
+        self.modified_split.to_csv(os.path.join(self.output_path, self.video_name + '_split_times.csv'), index=False)
 
     def get_video_name_from_filepath(self, local_video_path):
         return local_video_path.split('/')[-1].split('.')[0]
 
     def detect_scenes(self, local_video_path):
         self.video_name = self.get_video_name_from_filepath(local_video_path)
-        print("Video_name : ",self.video_name)
+        print("Video_name : ", self.video_name)
         self.generate_scenes(local_video_path)
-        generated_csv = self.output_path + self.video_name + '.stats.csv'
+        generated_csv = os.path.join(self.output_path, self.video_name + '.stats.csv')
         df = pd.read_csv(generated_csv,skiprows=1)
         video_len = df['Timecode'].max().split(':')
         video_len = int(video_len[0]*60) + int(video_len[1])
-        self.threshold = self.search_threshold(video_len ,generated_csv)
+        self.threshold = self.search_threshold(video_len, generated_csv)
         self.generate_scenes(local_video_path)
-        self.get_optimal_splits(self.output_path + self.video_name + '-Scenes.csv')
+        self.get_optimal_splits(os.path.join(self.output_path, self.video_name + '-Scenes.csv'))
 
     def convert_str_to_datetime(self, str_time):
         """Converts string to datetime object"""
