@@ -91,7 +91,7 @@ DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql',
        'OPTIONS': {
-            'read_default_file': '/Users/shashanks./college/semester-8/Software-Engineering/project/v1/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
+            'read_default_file': '/home/nitesh/SWEProject/videoSummarizer/videoSummarizer/mysql.cnf',
         },
     }
 }

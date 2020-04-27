@@ -4,7 +4,6 @@ from django.utils import timezone
 from summarize.models import *
 from summarize.forms import SignUpForm
 from summarize.forms import VideoForm
-# from summarize.modules import pre_process, tag_search
 from summarize.modules import SummarizePipeline
 
 from django.contrib.auth.decorators import login_required
@@ -79,7 +78,6 @@ def signup(request):
     return render(request, 'summarize/signup.html', {'form': form})
 
 
-
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -96,10 +94,6 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'summarize/account_activation_invalid.html')
 
-
-
-def account_activation_sent(request):
-    return render(request, 'summarize/account_activation_sent.html')
 
 def account_activation_sent(request):
     return render(request, 'summarize/account_activation_sent.html')
@@ -128,10 +122,11 @@ def video_detail(request, pk):
     print(video)
     return render(request, 'summarize/video_detail.html', {'video' : video})
 
+
 @login_required
 def video_list(request):
     videos = Video.objects.filter(UserID = request.user)
-    paginator = Paginator(videos, 5)
+    paginator = Paginator(videos, 1)
     page = request.GET.get('page')
     try:
         videos = paginator.page(page)
@@ -148,10 +143,6 @@ def get_relevant_split_data(pk):
     for split_id in split_ids:
         tags = list(SplitTag.objects.filter(SplitID = split_id).values_list('Tag', flat=True))
         tag_list.append(tags)
-    # summary_list = []
-    # for split_id in split_ids:
-    #     summaries = list(SplitSummary.objects.filter(SplitID = split_id).values_list('Summary', flat=True))
-    #     summary_list.append(summaries)
     return split_ids, split_paths, tag_list
 
 @login_required
@@ -159,14 +150,6 @@ def video_summary(request, pk):
     video = Video.objects.get(id = pk)
     split_ids, split_paths, tag_list = get_relevant_split_data(pk)
     data_list = list(zip(split_ids, split_paths, tag_list))
-    paginator = Paginator(split_ids, 10)
-    page = request.GET.get('page')
-    try:
-        videos = paginator.page(page)
-    except PageNotAnInteger:
-        videos = paginator.page(1)
-    except EmptyPage:
-        videos = paginator.page(paginator.num_pages)
     return render(request, 'summarize/video_summary.html', {
         'name': video.Name,
         'data_list': data_list
@@ -187,3 +170,21 @@ def split_detail(request, pk):
         'tags': tags,
         'summaries': summaries
     })
+
+
+def search_tag(request):
+    if request.method == 'GET':
+        split_ids = sorted(list(SplitTag.objects.filter(Tag = request.GET.get('search')).values_list('SplitID', flat=True)))
+        video_ids = sorted(list(VideoSplit.objects.filter(SplitID__in = split_ids).values_list('VideoID', flat=True)))
+        videos = Video.objects.filter(id__in = video_ids)
+        paginator = Paginator(videos, 5)
+        page = request.GET.get('page')
+        try:
+            videos = paginator.page(page)
+        except PageNotAnInteger:
+            videos = paginator.page(1)
+        except EmptyPage:
+            videos = paginator.page(paginator.num_pages)
+        return render(request, 'summarize/search.html', {'videos': videos})
+    else:
+        return render(request,"summarize/search.html",{})
