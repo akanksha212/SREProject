@@ -151,8 +151,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'gulshanmittalcode1@gmail.com'
-EMAIL_HOST_PASSWORD = 'test_swe@123'
+EMAIL_HOST_USER = 'email'
+EMAIL_HOST_PASSWORD = 'passwd'
 
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
